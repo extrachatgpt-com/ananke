@@ -64,6 +64,215 @@ type McpForm = {
   json: string;
 };
 
+type Locale = "en" | "zh";
+
+const translations = {
+  en: {
+    tagline: "One Place for Skills & MCP.",
+    viewSkills: "Skills",
+    viewMcp: "MCP",
+    installSkill: "Install skill",
+    skillCenter: "Skill Center",
+    refresh: "Refresh",
+    addMcpServer: "Add MCP server",
+    aiAgents: "AI Coding Agents",
+    pickScope: "Pick a scope",
+    mcpScopes: "MCP scopes",
+    allAgents: "All Agents",
+    unifiedView: "Unified view",
+    statusReady: "Ready",
+    statusMissing: "Missing",
+    installedSkills: "Installed Skills",
+    allAgentsLabel: "All agents",
+    indexingSkills: "Indexing skills...",
+    noSkillsMatch: "No skills match this filter.",
+    noDescription: "No description",
+    skillDetails: "Skill Details",
+    fullInstructions: "Full instructions",
+    selectSkillInspect: "Select a skill to inspect.",
+    labelPath: "Path",
+    labelLastModified: "Last modified",
+    labelAgentRoot: "Agent root",
+    directoryTree: "Directory tree",
+    loadingTree: "Loading tree...",
+    noTreeData: "No tree data.",
+    skillContent: "SKILL.md content",
+    syncLatest: "Sync latest",
+    syncing: "Syncing...",
+    deleteSkill: "Delete skill",
+    mcpServers: "MCP Servers",
+    selectAgent: "Select an agent",
+    loadingMcpServers: "Loading MCP servers...",
+    selectAgentToViewMcp: "Select an agent to view MCP.",
+    noMcpConfigured: "No MCP servers configured.",
+    mcpDetails: "MCP Details",
+    jsonFormat: "JSON format",
+    selectMcpServer: "Select an MCP server.",
+    unknownAgent: "Unknown agent",
+    agentLabel: "Agent",
+    mcpJsonLabel: "mcpServers JSON",
+    editJson: "Edit JSON",
+    deleteServer: "Delete server",
+    installSkillTitle: "Install skill from GitHub",
+    installSkillHint: "Pick an agent and provide a GitHub directory URL.",
+    close: "Close",
+    targetAgent: "Target agent",
+    githubUrl: "GitHub directory URL",
+    githubUrlPlaceholder: "https://github.com/org/repo/tree/main/skills/example",
+    confirmDeleteSkillTitle: "Delete skill",
+    confirmDeleteServerTitle: "Delete MCP server",
+    irreversible: "This cannot be undone.",
+    labelSkill: "Skill",
+    labelServer: "Server",
+    cancel: "Cancel",
+    registerMcpTitle: "Register MCP server",
+    registerMcpHint: "Paste MCP JSON for the selected agent.",
+    mcpJson: "MCP JSON",
+    saveMcp: "Save MCP",
+    footerCopyright: "Copyright {year} Ananke",
+    footerRegistry: "SKILL.md registry",
+    countSkills: "{count} skills",
+    countMcpServers: "{count} MCP servers",
+    agentMeta: "Agent: {agent}",
+    unselected: "Unselected",
+    urlMeta: "url: {url}",
+    cmdMeta: "cmd: {command}",
+    fieldCount: "{count} fields",
+    argsCount: "{count} args",
+    openFailed: "Open failed: {error}",
+    githubUrlRequired: "GitHub URL is required.",
+    skillInstalled: "Skill installed.",
+    installFailed: "Install failed: {error}",
+    skillSynced: "Skill synced.",
+    syncFailed: "Sync failed: {error}",
+    skillDeleted: "Skill deleted.",
+    deleteFailed: "Delete failed: {error}",
+    agentsRefreshed: "Agents refreshed.",
+    mcpRefreshed: "MCP servers refreshed.",
+    invalidJson: "Invalid JSON format.",
+    jsonMustBeObject: "JSON must be an object.",
+    jsonMustIncludeMcp: "JSON must include mcpServers object.",
+    mcpSaved: "MCP server saved.",
+    saveFailed: "Save failed: {error}",
+    mcpDeleted: "MCP server deleted.",
+    notTracked: "Not tracked",
+    treeDir: "DIR",
+    treeLink: "LINK",
+    treeFile: "FILE",
+    language: "Language",
+    english: "English",
+    chinese: "中文",
+  },
+  zh: {
+    tagline: "Skill 与 MCP 的可视化管理工具",
+    viewSkills: "Skill",
+    viewMcp: "MCP",
+    installSkill: "安装Skill",
+    skillCenter: "Skill中心",
+    refresh: "刷新",
+    addMcpServer: "添加 MCP 服务",
+    aiAgents: "AI 编码Agent",
+    pickScope: "选择范围",
+    mcpScopes: "MCP 范围",
+    allAgents: "全部Agent",
+    unifiedView: "统一视图",
+    statusReady: "可用",
+    statusMissing: "缺失",
+    installedSkills: "已安装Skills",
+    allAgentsLabel: "全部Agent",
+    indexingSkills: "正在索引Skill...",
+    noSkillsMatch: "没有匹配的Skill。",
+    noDescription: "暂无描述",
+    skillDetails: "Skill详情",
+    fullInstructions: "完整说明",
+    selectSkillInspect: "选择一个Skill查看详情。",
+    labelPath: "路径",
+    labelLastModified: "最近更新",
+    labelAgentRoot: "Agent目录",
+    directoryTree: "目录结构",
+    loadingTree: "正在加载目录...",
+    noTreeData: "没有目录数据。",
+    skillContent: "SKILL.md 内容",
+    syncLatest: "同步最新",
+    syncing: "同步中...",
+    deleteSkill: "删除Skill",
+    mcpServers: "MCP 服务",
+    selectAgent: "选择Agent",
+    loadingMcpServers: "正在加载 MCP 服务...",
+    selectAgentToViewMcp: "选择Agent以查看 MCP。",
+    noMcpConfigured: "暂无 MCP 服务。",
+    mcpDetails: "MCP 详情",
+    jsonFormat: "JSON 格式",
+    selectMcpServer: "选择一个 MCP 服务。",
+    unknownAgent: "未知Agent",
+    agentLabel: "Agent",
+    mcpJsonLabel: "mcpServers JSON",
+    editJson: "编辑 JSON",
+    deleteServer: "删除服务",
+    installSkillTitle: "从 GitHub 安装Skill",
+    installSkillHint: "选择Agent并填写 GitHub 目录链接。",
+    close: "关闭",
+    targetAgent: "目标Agent",
+    githubUrl: "GitHub 目录链接",
+    githubUrlPlaceholder: "https://github.com/org/repo/tree/main/skills/example",
+    confirmDeleteSkillTitle: "删除Skill",
+    confirmDeleteServerTitle: "删除 MCP 服务",
+    irreversible: "此操作无法撤销。",
+    labelSkill: "Skill",
+    labelServer: "服务",
+    cancel: "取消",
+    registerMcpTitle: "注册 MCP 服务",
+    registerMcpHint: "粘贴所选Agent的 MCP JSON。",
+    mcpJson: "MCP JSON",
+    saveMcp: "保存 MCP",
+    footerCopyright: "版权所有 {year} Ananke",
+    footerRegistry: "SKILL.md 注册中心",
+    countSkills: "{count} 个Skill",
+    countMcpServers: "{count} 个 MCP 服务",
+    agentMeta: "Agent：{agent}",
+    unselected: "未选择",
+    urlMeta: "URL：{url}",
+    cmdMeta: "命令：{command}",
+    fieldCount: "{count} 个字段",
+    argsCount: "{count} 个参数",
+    openFailed: "打开失败：{error}",
+    githubUrlRequired: "需要填写 GitHub 链接。",
+    skillInstalled: "Skill已安装。",
+    installFailed: "安装失败：{error}",
+    skillSynced: "Skill已同步。",
+    syncFailed: "同步失败：{error}",
+    skillDeleted: "Skill已删除。",
+    deleteFailed: "删除失败：{error}",
+    agentsRefreshed: "Agent列表已刷新。",
+    mcpRefreshed: "MCP 服务已刷新。",
+    invalidJson: "JSON 格式无效。",
+    jsonMustBeObject: "JSON 必须是对象。",
+    jsonMustIncludeMcp: "JSON 必须包含 mcpServers 对象。",
+    mcpSaved: "MCP 服务已保存。",
+    saveFailed: "保存失败：{error}",
+    mcpDeleted: "MCP 服务已删除。",
+    notTracked: "未记录",
+    treeDir: "目录",
+    treeLink: "链接",
+    treeFile: "文件",
+    language: "语言",
+    english: "English",
+    chinese: "中文",
+  },
+} as const;
+
+type TranslationKey = keyof typeof translations.en;
+type TranslationVars = Record<string, string | number>;
+
+const resolveLocale = (): Locale => {
+  if (typeof window === "undefined") return "en";
+  const stored = window.localStorage.getItem("ananke.locale");
+  if (stored === "en" || stored === "zh") return stored;
+  const languages = navigator.languages ?? [navigator.language];
+  const isZh = languages.some((lang) => lang.toLowerCase().startsWith("zh"));
+  return isZh ? "zh" : "en";
+};
+
 type DeleteIntent =
   | {
       kind: "skill";
@@ -128,22 +337,10 @@ const defaultMcpForm: McpForm = {
   json: defaultMcpJson,
 };
 
-const formatDate = (timestamp?: number) => {
-  if (!timestamp) return "Not tracked";
-  const date = new Date(timestamp * 1000);
-  return date.toLocaleString();
-};
-
 const shortenPath = (value: string) => {
   if (!value) return "";
   if (value.length < 40) return value;
   return `${value.slice(0, 18)}...${value.slice(-18)}`;
-};
-
-const skillTreeKindLabel = (kind: SkillTreeNode["kind"]) => {
-  if (kind === "dir") return "DIR";
-  if (kind === "link") return "LINK";
-  return "FILE";
 };
 
 const buildMcpJson = (server: McpServer) =>
@@ -174,6 +371,38 @@ function App() {
   const [selectedMcpId, setSelectedMcpId] = useState<string | null>(null);
   const [showAddMcp, setShowAddMcp] = useState(false);
   const [mcpForm, setMcpForm] = useState<McpForm>(defaultMcpForm);
+  const [locale, setLocale] = useState<Locale>(() => resolveLocale());
+
+  useEffect(() => {
+    window.localStorage.setItem("ananke.locale", locale);
+  }, [locale]);
+
+  const t = (key: TranslationKey, vars?: TranslationVars) => {
+    const template = translations[locale][key];
+    if (!vars) return template;
+    return template.replace(/\{(\w+)\}/g, (match, token) => {
+      const value = vars[token];
+      return value === undefined ? match : String(value);
+    });
+  };
+
+  const localeTag = locale === "zh" ? "zh-CN" : "en-US";
+  const formatDate = (value?: number) => {
+    if (!value) return t("notTracked");
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return t("notTracked");
+    return new Intl.DateTimeFormat(localeTag, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    }).format(date);
+  };
+
+  const skillTreeKindLabel = (kind: SkillTreeNode["kind"]) => {
+    if (kind === "dir") return t("treeDir");
+    if (kind === "link") return t("treeLink");
+    return t("treeFile");
+  };
 
   const loadSources = async () => {
     setIsLoading(true);
@@ -346,7 +575,7 @@ function App() {
     try {
       await openUrl("https://skill.extrachatgpt.com/");
     } catch (err) {
-      showToast(`Open failed: ${String(err)}`, "error");
+      showToast(t("openFailed", { error: String(err) }), "error");
     }
   };
 
@@ -367,7 +596,7 @@ function App() {
 
   const handleInstallSkill = async () => {
     if (!skillForm.url.trim()) {
-      showToast("GitHub URL is required.", "error");
+      showToast(t("githubUrlRequired"), "error");
       return;
     }
     try {
@@ -381,9 +610,9 @@ function App() {
       setSelectedSkillKey(`${created.sourceId}:${created.id}`);
       setSkillForm(defaultSkillForm);
       setShowAddSkill(false);
-      showToast("Skill installed.", "success");
+      showToast(t("skillInstalled"), "success");
     } catch (err) {
-      showToast(`Install failed: ${String(err)}`, "error");
+      showToast(t("installFailed", { error: String(err) }), "error");
     }
   };
 
@@ -401,9 +630,9 @@ function App() {
       });
       await loadSources();
       setSelectedSkillKey(skillKey);
-      showToast("Skill synced.", "success");
+      showToast(t("skillSynced"), "success");
     } catch (err) {
-      showToast(`Sync failed: ${String(err)}`, "error");
+      showToast(t("syncFailed", { error: String(err) }), "error");
     } finally {
       setSyncLoading(false);
     }
@@ -429,20 +658,20 @@ function App() {
       });
       setSelectedSkillKey(null);
       await loadSources();
-      showToast("Skill deleted.", "success");
+      showToast(t("skillDeleted"), "success");
     } catch (err) {
-      showToast(`Delete failed: ${String(err)}`, "error");
+      showToast(t("deleteFailed", { error: String(err) }), "error");
     }
   };
 
   const handleRefreshSkills = async () => {
     await loadSources();
-    showToast("Agents refreshed.", "info");
+    showToast(t("agentsRefreshed"), "info");
   };
 
   const handleRefreshMcp = async () => {
     await loadMcp();
-    showToast("MCP servers refreshed.", "info");
+    showToast(t("mcpRefreshed"), "info");
   };
 
   const handleOpenAddMcp = () => {
@@ -458,18 +687,18 @@ function App() {
     try {
       parsed = JSON.parse(mcpForm.json);
     } catch (err) {
-      showToast("Invalid JSON format.", "error");
+      showToast(t("invalidJson"), "error");
       return;
     }
 
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      showToast("JSON must be an object.", "error");
+      showToast(t("jsonMustBeObject"), "error");
       return;
     }
 
     const servers = (parsed as { mcpServers?: unknown }).mcpServers;
     if (!servers || typeof servers !== "object" || Array.isArray(servers)) {
-      showToast("JSON must include mcpServers object.", "error");
+      showToast(t("jsonMustIncludeMcp"), "error");
       return;
     }
 
@@ -483,9 +712,9 @@ function App() {
       await loadMcp();
       setShowAddMcp(false);
       setMcpForm(defaultMcpForm);
-      showToast("MCP server saved.", "success");
+      showToast(t("mcpSaved"), "success");
     } catch (err) {
-      showToast(`Save failed: ${String(err)}`, "error");
+      showToast(t("saveFailed", { error: String(err) }), "error");
     }
   };
 
@@ -509,9 +738,9 @@ function App() {
       });
       setSelectedMcpId(null);
       await loadMcp();
-      showToast("MCP server deleted.", "success");
+      showToast(t("mcpDeleted"), "success");
     } catch (err) {
-      showToast(`Delete failed: ${String(err)}`, "error");
+      showToast(t("deleteFailed", { error: String(err) }), "error");
     }
   };
 
@@ -557,6 +786,11 @@ function App() {
   };
 
   const selectedMcpLabel = activeMcpSource?.label || "";
+  const selectedMcpMetaLabel = selectedMcpLabel || t("unselected");
+  const selectedSourceLabel =
+    selectedSource === "all"
+      ? t("allAgentsLabel")
+      : sources.find((source) => source.id === selectedSource)?.label || "";
   const currentYear = new Date().getFullYear();
 
   return (
@@ -564,19 +798,21 @@ function App() {
       <header className="topbar">
         <div className="brand">
           <div className="brand-title">Ananke</div>
-          <div className="brand-sub">
-            One Place for Skills & MCP.
-          </div>
+          <div className="brand-sub">{t("tagline")}</div>
           <div className="brand-meta">
             {view === "skills" ? (
               <>
-                <div className="meta-chip">{totalSkills} skills</div>
+                <div className="meta-chip">
+                  {t("countSkills", { count: totalSkills })}
+                </div>
               </>
             ) : (
               <>
-                <div className="meta-chip">{totalMcpServers} MCP servers</div>
                 <div className="meta-chip">
-                  Agent: {selectedMcpLabel || "Unselected"}
+                  {t("countMcpServers", { count: totalMcpServers })}
+                </div>
+                <div className="meta-chip">
+                  {t("agentMeta", { agent: selectedMcpMetaLabel })}
                 </div>
               </>
             )}
@@ -588,15 +824,27 @@ function App() {
               className={`toggle-pill ${view === "skills" ? "active" : ""}`}
               onClick={() => setView("skills")}
             >
-              Skills
+              {t("viewSkills")}
             </button>
             <button
               className={`toggle-pill ${view === "mcp" ? "active" : ""}`}
               onClick={() => setView("mcp")}
             >
-              MCP
+              {t("viewMcp")}
             </button>
           </div>
+          <label className="lang-select">
+            <span>{t("language")}</span>
+            <select
+              value={locale}
+              onChange={(event) =>
+                setLocale(event.target.value as Locale)
+              }
+            >
+              <option value="en">{t("english")}</option>
+              <option value="zh">{t("chinese")}</option>
+            </select>
+          </label>
           <div className="control-buttons">
             {view === "skills" ? (
               <>
@@ -604,13 +852,13 @@ function App() {
                   className="btn btn-primary"
                   onClick={handleOpenAddSkill}
                 >
-                  Install skill
+                  {t("installSkill")}
                 </button>
                 <button
                   className="btn btn-ghost btn-external"
                   onClick={handleOpenSkillCenter}
                 >
-                  Skill Center
+                  {t("skillCenter")}
                   <svg
                     className="external-icon"
                     viewBox="0 0 24 24"
@@ -627,16 +875,16 @@ function App() {
                   </svg>
                 </button>
                 <button className="btn btn-ghost" onClick={handleRefreshSkills}>
-                  Refresh
+                  {t("refresh")}
                 </button>
               </>
             ) : (
               <>
                 <button className="btn btn-primary" onClick={handleOpenAddMcp}>
-                  Add MCP server
+                  {t("addMcpServer")}
                 </button>
                 <button className="btn btn-ghost" onClick={handleRefreshMcp}>
-                  Refresh
+                  {t("refresh")}
                 </button>
               </>
             )}
@@ -648,8 +896,8 @@ function App() {
         <section className="panel-grid">
           <aside className="panel sources">
             <div className="panel-header">
-              <h2>AI Coding Agents</h2>
-              <span className="panel-sub">Pick a scope</span>
+              <h2>{t("aiAgents")}</h2>
+              <span className="panel-sub">{t("pickScope")}</span>
             </div>
 
             <button
@@ -664,10 +912,10 @@ function App() {
               }
               onClick={() => setSelectedSource("all")}
             >
-              <div className="source-title">All Agents</div>
+              <div className="source-title">{t("allAgents")}</div>
               <div className="source-meta">
-                <span>{sourceCount("all")} skills</span>
-                <span className="status-pill">Unified view</span>
+                <span>{t("countSkills", { count: sourceCount("all") })}</span>
+                <span className="status-pill">{t("unifiedView")}</span>
               </div>
             </button>
 
@@ -690,9 +938,11 @@ function App() {
                   >
                     <div className="source-title">{source.label}</div>
                     <div className="source-meta">
-                      <span>{source.skills.length} skills</span>
+                      <span>
+                        {t("countSkills", { count: source.skills.length })}
+                      </span>
                       <span className="status-pill">
-                        {source.exists ? "Ready" : "Missing"}
+                        {source.exists ? t("statusReady") : t("statusMissing")}
                       </span>
                     </div>
                     <div className="source-path">{shortenPath(source.root)}</div>
@@ -704,20 +954,18 @@ function App() {
 
           <section className="panel skills">
             <div className="panel-header">
-              <h2>Installed Skills</h2>
+              <h2>{t("installedSkills")}</h2>
               <span className="panel-sub">
-                {selectedSource === "all"
-                  ? "All agents"
-                  : sources.find((source) => source.id === selectedSource)?.label}
+                {selectedSourceLabel}
               </span>
             </div>
 
             {isLoading ? (
-              <div className="empty-state">Indexing skills...</div>
+              <div className="empty-state">{t("indexingSkills")}</div>
             ) : error ? (
               <div className="empty-state error">{error}</div>
             ) : visibleSkills.length === 0 ? (
-              <div className="empty-state">No skills match this filter.</div>
+              <div className="empty-state">{t("noSkillsMatch")}</div>
             ) : (
               <div className="skill-list">
                 {visibleSkills.map((skill, index) => {
@@ -749,7 +997,7 @@ function App() {
                         <div>
                           <div className="skill-name">{skill.name}</div>
                           <div className="skill-desc">
-                            {skill.description || "No description"}
+                            {skill.description || t("noDescription")}
                           </div>
                         </div>
                         <span className="source-pill">{skill.sourceLabel}</span>
@@ -776,18 +1024,18 @@ function App() {
 
           <aside className="panel detail">
             <div className="panel-header">
-              <h2>Skill Details</h2>
-              <span className="panel-sub">Full instructions</span>
+              <h2>{t("skillDetails")}</h2>
+              <span className="panel-sub">{t("fullInstructions")}</span>
             </div>
 
             {!selectedSkill ? (
-              <div className="empty-state">Select a skill to inspect.</div>
+              <div className="empty-state">{t("selectSkillInspect")}</div>
             ) : (
               <div className="detail-content">
                 <div className="detail-header">
                   <div>
                     <h3>{selectedSkill.name}</h3>
-                    <p>{selectedSkill.description || "No description"}</p>
+                    <p>{selectedSkill.description || t("noDescription")}</p>
                   </div>
                   <span className="source-pill">
                     {selectedSkill.sourceLabel}
@@ -796,19 +1044,19 @@ function App() {
 
                 <div className="detail-grid">
                   <div>
-                    <div className="detail-label">Path</div>
+                    <div className="detail-label">{t("labelPath")}</div>
                     <div className="detail-value detail-path">
                       <span>{selectedSkill.path}</span>
                     </div>
                   </div>
                   <div>
-                    <div className="detail-label">Last modified</div>
+                    <div className="detail-label">{t("labelLastModified")}</div>
                     <div className="detail-value">
                       {formatDate(selectedSkill.lastModified)}
                     </div>
                   </div>
                   <div>
-                    <div className="detail-label">Agent root</div>
+                    <div className="detail-label">{t("labelAgentRoot")}</div>
                     <div className="detail-value">
                       {selectedSkill.sourceRoot}
                     </div>
@@ -816,20 +1064,20 @@ function App() {
                 </div>
 
                 <div>
-                  <div className="detail-label">Directory tree</div>
+                  <div className="detail-label">{t("directoryTree")}</div>
                   {skillTreeLoading ? (
-                    <div className="empty-state">Loading tree...</div>
+                    <div className="empty-state">{t("loadingTree")}</div>
                   ) : skillTreeError ? (
                     <div className="empty-state error">{skillTreeError}</div>
                   ) : skillTree ? (
                     <div className="tree">{renderTreeNode(skillTree)}</div>
                   ) : (
-                    <div className="empty-state">No tree data.</div>
+                    <div className="empty-state">{t("noTreeData")}</div>
                   )}
                 </div>
 
                 <div>
-                  <div className="detail-label">SKILL.md content</div>
+                  <div className="detail-label">{t("skillContent")}</div>
                   <pre className="detail-body">{selectedSkill.body}</pre>
                 </div>
 
@@ -840,14 +1088,14 @@ function App() {
                       onClick={handleSyncSkill}
                       disabled={syncLoading}
                     >
-                      {syncLoading ? "Syncing..." : "Sync latest"}
+                      {syncLoading ? t("syncing") : t("syncLatest")}
                     </button>
                   ) : null}
                   <button
                     className="btn btn-danger"
                     onClick={handleRequestDeleteSkill}
                   >
-                    Delete skill
+                    {t("deleteSkill")}
                   </button>
                 </div>
               </div>
@@ -858,8 +1106,8 @@ function App() {
         <section className="panel-grid">
           <aside className="panel sources">
             <div className="panel-header">
-              <h2>AI Coding Agents</h2>
-              <span className="panel-sub">MCP scopes</span>
+              <h2>{t("aiAgents")}</h2>
+              <span className="panel-sub">{t("mcpScopes")}</span>
             </div>
 
             <div className="source-list">
@@ -881,9 +1129,13 @@ function App() {
                   >
                     <div className="source-title">{source.label}</div>
                     <div className="source-meta">
-                      <span>{source.servers.length} servers</span>
+                      <span>
+                        {t("countMcpServers", {
+                          count: source.servers.length,
+                        })}
+                      </span>
                       <span className="status-pill">
-                        {source.exists ? "Ready" : "Missing"}
+                        {source.exists ? t("statusReady") : t("statusMissing")}
                       </span>
                     </div>
                     <div className="source-path">{shortenPath(source.path)}</div>
@@ -895,9 +1147,9 @@ function App() {
 
           <section className="panel mcp-list">
             <div className="panel-header">
-              <h2>MCP Servers</h2>
+              <h2>{t("mcpServers")}</h2>
               <span className="panel-sub">
-                {activeMcpSource?.label || "Select an agent"}
+                {activeMcpSource?.label || t("selectAgent")}
               </span>
             </div>
 
@@ -906,13 +1158,13 @@ function App() {
             )}
 
             {mcpLoading ? (
-              <div className="empty-state">Loading MCP servers...</div>
+              <div className="empty-state">{t("loadingMcpServers")}</div>
             ) : mcpError ? (
               <div className="empty-state error">{mcpError}</div>
             ) : !activeMcpSource ? (
-              <div className="empty-state">Select an agent to view MCP.</div>
+              <div className="empty-state">{t("selectAgentToViewMcp")}</div>
             ) : activeMcpSource.servers.length === 0 ? (
-              <div className="empty-state">No MCP servers configured.</div>
+              <div className="empty-state">{t("noMcpConfigured")}</div>
             ) : (
               <div className="mcp-list-grid">
                 {activeMcpSource.servers.map((server, index) => {
@@ -939,12 +1191,20 @@ function App() {
                     >
                       <div className="mcp-title">{server.id}</div>
                       <div className="mcp-meta">
-                        {url ? <span>url: {url}</span> : null}
-                        {command ? <span>cmd: {command}</span> : null}
-                        {!url && !command ? (
-                          <span>{Object.keys(config).length} fields</span>
+                        {url ? <span>{t("urlMeta", { url })}</span> : null}
+                        {command ? (
+                          <span>{t("cmdMeta", { command })}</span>
                         ) : null}
-                        {args ? <span>{args} args</span> : null}
+                        {!url && !command ? (
+                          <span>
+                            {t("fieldCount", {
+                              count: Object.keys(config).length,
+                            })}
+                          </span>
+                        ) : null}
+                        {args ? (
+                          <span>{t("argsCount", { count: args })}</span>
+                        ) : null}
                       </div>
                     </button>
                   );
@@ -955,35 +1215,35 @@ function App() {
 
           <aside className="panel mcp-detail">
             <div className="panel-header">
-              <h2>MCP Details</h2>
-              <span className="panel-sub">JSON format</span>
+              <h2>{t("mcpDetails")}</h2>
+              <span className="panel-sub">{t("jsonFormat")}</span>
             </div>
 
             {!selectedMcp ? (
-              <div className="empty-state">Select an MCP server.</div>
+              <div className="empty-state">{t("selectMcpServer")}</div>
             ) : (
               <div className="detail-content">
                 <div className="detail-header">
                   <div>
                     <h3>{selectedMcp.id}</h3>
-                    <p>{selectedMcpLabel || "Unknown agent"}</p>
+                    <p>{selectedMcpLabel || t("unknownAgent")}</p>
                   </div>
                   <span className="source-pill">
-                    {activeMcpSource?.label || "Agent"}
+                    {activeMcpSource?.label || t("agentLabel")}
                   </span>
                 </div>
 
                 <div>
-                  <div className="detail-label">mcpServers JSON</div>
+                  <div className="detail-label">{t("mcpJsonLabel")}</div>
                   <pre className="detail-body">{selectedMcpJson}</pre>
                 </div>
 
                 <div className="detail-actions">
                   <button className="btn btn-ghost" onClick={handleEditMcp}>
-                    Edit JSON
+                    {t("editJson")}
                   </button>
                   <button className="btn btn-danger" onClick={handleRequestDeleteMcp}>
-                    Delete server
+                    {t("deleteServer")}
                   </button>
                 </div>
               </div>
@@ -997,20 +1257,20 @@ function App() {
           <div className="modal">
             <div className="modal-header">
               <div>
-                <h3>Install skill from GitHub</h3>
-                <p>Pick an agent and provide a GitHub directory URL.</p>
+                <h3>{t("installSkillTitle")}</h3>
+                <p>{t("installSkillHint")}</p>
               </div>
               <button
                 className="btn btn-ghost"
                 onClick={() => setShowAddSkill(false)}
               >
-                Close
+                {t("close")}
               </button>
             </div>
 
             <div className="modal-grid">
               <label>
-                <span>Target agent</span>
+                <span>{t("targetAgent")}</span>
                 <select
                   value={skillForm.sourceId}
                   onChange={(event) =>
@@ -1029,7 +1289,7 @@ function App() {
               </label>
 
               <label className="full">
-                <span>GitHub directory URL</span>
+                <span>{t("githubUrl")}</span>
                 <input
                   value={skillForm.url}
                   onChange={(event) =>
@@ -1038,14 +1298,14 @@ function App() {
                       url: event.target.value,
                     }))
                   }
-                  placeholder="https://github.com/org/repo/tree/main/skills/example"
+                  placeholder={t("githubUrlPlaceholder")}
                 />
               </label>
             </div>
 
             <div className="modal-footer">
               <button className="btn btn-primary" onClick={handleInstallSkill}>
-                Install skill
+                {t("installSkill")}
               </button>
             </div>
           </div>
@@ -1059,23 +1319,25 @@ function App() {
               <div>
                 <h3>
                   {deleteIntent.kind === "skill"
-                    ? "Delete skill"
-                    : "Delete MCP server"}
+                    ? t("confirmDeleteSkillTitle")
+                    : t("confirmDeleteServerTitle")}
                 </h3>
-                <p>This cannot be undone.</p>
+                <p>{t("irreversible")}</p>
               </div>
               <button
                 className="btn btn-ghost"
                 onClick={() => setDeleteIntent(null)}
               >
-                Close
+                {t("close")}
               </button>
             </div>
 
             <div className="modal-grid">
               <label className="full">
                 <span>
-                  {deleteIntent.kind === "skill" ? "Skill" : "Server"}
+                  {deleteIntent.kind === "skill"
+                    ? t("labelSkill")
+                    : t("labelServer")}
                 </span>
                 <input value={deleteIntent.name} readOnly />
               </label>
@@ -1086,10 +1348,12 @@ function App() {
                 className="btn btn-ghost"
                 onClick={() => setDeleteIntent(null)}
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button className="btn btn-danger" onClick={handleConfirmDelete}>
-                {deleteIntent.kind === "skill" ? "Delete skill" : "Delete server"}
+                {deleteIntent.kind === "skill"
+                  ? t("deleteSkill")
+                  : t("deleteServer")}
               </button>
             </div>
           </div>
@@ -1101,20 +1365,20 @@ function App() {
           <div className="modal">
             <div className="modal-header">
               <div>
-                <h3>Register MCP server</h3>
-                <p>Paste MCP JSON for the selected agent.</p>
+                <h3>{t("registerMcpTitle")}</h3>
+                <p>{t("registerMcpHint")}</p>
               </div>
               <button
                 className="btn btn-ghost"
                 onClick={() => setShowAddMcp(false)}
               >
-                Close
+                {t("close")}
               </button>
             </div>
 
             <div className="modal-grid">
               <label>
-                <span>Target agent</span>
+                <span>{t("targetAgent")}</span>
                 <select
                   value={mcpForm.sourceId}
                   onChange={(event) =>
@@ -1133,7 +1397,7 @@ function App() {
               </label>
 
               <label className="full">
-                <span>MCP JSON</span>
+                <span>{t("mcpJson")}</span>
                 <textarea
                   value={mcpForm.json}
                   onChange={(event) =>
@@ -1149,7 +1413,7 @@ function App() {
 
             <div className="modal-footer">
               <button className="btn btn-primary" onClick={handleSaveMcp}>
-                Save MCP
+                {t("saveMcp")}
               </button>
             </div>
           </div>
@@ -1157,10 +1421,12 @@ function App() {
       )}
 
       <footer className="app-footer">
-        <span className="footer-text">Copyright {currentYear} Ananke</span>
+        <span className="footer-text">
+          {t("footerCopyright", { year: currentYear })}
+        </span>
         <span className="footer-sep">|</span>
         <button className="footer-link" onClick={handleOpenSkillCenter}>
-          SKILL.md registry
+          {t("footerRegistry")}
           <svg className="footer-icon" viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M14 4h6v6M10 14L20 4M20 14v6H4V4h6"

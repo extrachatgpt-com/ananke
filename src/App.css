@@ -120,6 +120,39 @@ body::before {
   align-self: flex-end;
 }
 
+.lang-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fffaf2;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: flex-end;
+  white-space: nowrap;
+}
+
+.lang-select select {
+  width: auto;
+  min-width: 80px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-transform: none;
+  cursor: pointer;
+}
+
+.lang-select select:focus {
+  box-shadow: none;
+}
+
 .toggle-pill {
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -869,6 +902,10 @@ textarea {
   }
 
   .view-toggle {
+    align-self: flex-start;
+  }
+
+  .lang-select {
     align-self: flex-start;
   }
 }
