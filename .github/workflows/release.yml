@@ -14,7 +14,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, windows-latest]
+        include:
+          - name: macOS (Apple Silicon)
+            platform: macos-latest
+            target: aarch64-apple-darwin
+          - name: macOS (Intel)
+            platform: macos-latest
+            target: x86_64-apple-darwin
+          - name: Windows
+            platform: windows-latest
+            target: ""
+          - name: Linux
+            platform: ubuntu-latest
+            target: ""
+    name: build ${{ matrix.name }}
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout
@@ -28,6 +41,22 @@ jobs:
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libssl-dev \
+            build-essential
+
+      - name: Add Rust target
+        if: matrix.target != ''
+        run: rustup target add ${{ matrix.target }}
 
       - name: Install dependencies
         run: npm ci
@@ -79,7 +108,7 @@ jobs:
           PY
 
       - name: Build and publish
-        if: matrix.platform == 'windows-latest'
+        if: matrix.platform != 'macos-latest'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -102,6 +131,7 @@ jobs:
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
+          args: --target ${{ matrix.target }}
           tagName: ${{ github.ref_name }}
           releaseName: "Ananke v__VERSION__"
           releaseBody: "Automated release."
