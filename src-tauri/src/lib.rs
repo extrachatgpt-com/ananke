@@ -179,6 +179,15 @@ fn source_configs(home: &Path) -> Vec<SourceConfig> {
     let codebuddy_files = vec![".cb-rules", "SKILL.md"];
     let kiro_files = vec!["instructions.md"];
     let qoder_files = vec!["config.yaml"];
+    let antigravity_root = {
+        let gemini_root = home.join(".gemini").join("antigravity");
+        let legacy_root = home.join(".antigravity");
+        if gemini_root.exists() || !legacy_root.exists() {
+            gemini_root
+        } else {
+            legacy_root
+        }
+    };
 
     vec![
         SourceConfig {
@@ -254,8 +263,8 @@ fn source_configs(home: &Path) -> Vec<SourceConfig> {
         SourceConfig {
             id: "antigravity-user",
             label: "Antigravity",
-            install_root: home.join(".antigravity"),
-            root: home.join(".antigravity").join("skills"),
+            install_root: antigravity_root.clone(),
+            root: antigravity_root.join("skills"),
             core_files: antigravity_files.clone(),
         },
         SourceConfig {
@@ -296,7 +305,20 @@ fn mcp_source_configs(home: &Path) -> Vec<McpSourceConfig> {
     let gemini_path = home.join(".gemini").join("mcp.json");
     let trae_path = home.join(".trae").join("mcp.json");
     let goose_path = home.join(".config").join("goose").join("mcp.json");
-    let antigravity_path = home.join(".antigravity").join("mcp.json");
+    let antigravity_primary = home
+        .join(".gemini")
+        .join("antigravity")
+        .join("mcp_config.json");
+    let antigravity_legacy = home.join(".antigravity").join("mcp.json");
+    let antigravity_path = if antigravity_primary.exists() || !antigravity_legacy.exists() {
+        antigravity_primary.clone()
+    } else {
+        antigravity_legacy.clone()
+    };
+    let antigravity_root = antigravity_path
+        .parent()
+        .map(|parent| parent.to_path_buf())
+        .unwrap_or_else(|| home.join(".gemini").join("antigravity"));
     let kiro_path = home.join(".kiro").join("mcp.json");
     let qoder_path = home.join(".qoder").join("mcp.json");
     let codebuddy_path = home.join(".codebuddy").join("mcp.json");
@@ -388,9 +410,9 @@ fn mcp_source_configs(home: &Path) -> Vec<McpSourceConfig> {
             label: "Antigravity",
             format: "json",
             kind: McpKind::ClaudeJson,
-            install_root: home.join(".antigravity"),
+            install_root: antigravity_root,
             primary_path: antigravity_path.clone(),
-            read_paths: vec![antigravity_path],
+            read_paths: vec![antigravity_primary, antigravity_legacy],
         },
         McpSourceConfig {
             id: "kiro",
@@ -1174,15 +1196,51 @@ fn fetch_skill_content(urls: Vec<String>) -> Result<String, String> {
     Err(last_error.unwrap_or_else(|| "Unable to download SKILL.md".to_string()))
 }
 
+fn line_col_from_index(input: &str, index: usize) -> (usize, usize) {
+    let mut line = 1usize;
+    let mut col = 1usize;
+
+    for (offset, ch) in input.char_indices() {
+        if offset >= index {
+            break;
+        }
+        if ch == '\n' {
+            line += 1;
+            col = 1;
+        } else if ch != '\r' {
+            col += 1;
+        }
+    }
+
+    (line, col)
+}
+
 fn load_toml_value(path: &Path) -> Result<TomlValue, String> {
     if !path.exists() {
         return Ok(TomlValue::Table(TomlMap::new()));
     }
     let content = fs::read_to_string(path)
         .map_err(|err| format!("Failed to read {}: {}", path.display(), err))?;
+    if content.trim().is_empty() {
+        return Ok(TomlValue::Table(TomlMap::new()));
+    }
     content
         .parse::<TomlValue>()
-        .map_err(|err| format!("Invalid TOML: {}", err))
+        .map_err(|err| {
+            let location = err
+                .span()
+                .map(|span| {
+                    let (line, col) = line_col_from_index(&content, span.start);
+                    format!("line {}, column {}", line, col)
+                })
+                .unwrap_or_else(|| "unknown location".to_string());
+            format!(
+                "Invalid TOML in {} ({}): {}",
+                path.display(),
+                location,
+                err
+            )
+        })
 }
 
 fn save_toml_value(path: &Path, value: &TomlValue) -> Result<(), String> {
@@ -1202,7 +1260,18 @@ fn load_json_value(path: &Path) -> Result<JsonValue, String> {
     }
     let content = fs::read_to_string(path)
         .map_err(|err| format!("Failed to read {}: {}", path.display(), err))?;
-    serde_json::from_str(&content).map_err(|err| format!("Invalid JSON: {}", err))
+    if content.trim().is_empty() {
+        return Ok(JsonValue::Object(JsonMap::new()));
+    }
+    serde_json::from_str(&content).map_err(|err| {
+        format!(
+            "Invalid JSON in {} (line {}, column {}): {}",
+            path.display(),
+            err.line(),
+            err.column(),
+            err
+        )
+    })
 }
 
 fn save_json_value(path: &Path, value: &JsonValue) -> Result<(), String> {
@@ -1325,8 +1394,14 @@ fn opencode_to_standard_config(config: &JsonValue) -> JsonValue {
         out.insert("type".to_string(), server_type.clone());
     }
 
+    if let Some(environment) = obj.get("environment") {
+        out.insert("env".to_string(), environment.clone());
+    } else if let Some(env) = obj.get("env") {
+        out.insert("env".to_string(), env.clone());
+    }
+
     for (key, value) in obj {
-        if ["command", "url", "enabled", "type"].contains(&key.as_str()) {
+        if ["command", "url", "enabled", "type", "env", "environment"].contains(&key.as_str()) {
             continue;
         }
         out.insert(key.clone(), value.clone());
@@ -1355,6 +1430,12 @@ fn standard_to_opencode_config(config: &JsonValue) -> Result<JsonValue, String> 
             out.insert("command".to_string(), JsonValue::Array(command_list));
         }
         out.remove("args");
+    }
+
+    if let Some(env) = out.remove("env") {
+        if !out.contains_key("environment") {
+            out.insert("environment".to_string(), env);
+        }
     }
 
     if !out.contains_key("type") {
